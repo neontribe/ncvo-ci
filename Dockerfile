@@ -1,14 +1,21 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:lts-alpine
+# FROM jenkins/jenkins:lts
 
 USER root
-RUN echo "deb http://ftp.de.debian.org/debian testing main" >> /etc/apt/sources.list
-RUN echo 'APT::Default-Release "stable";' | tee -a /etc/apt/apt.conf.d/00local
-RUN apt update && apt upgrade -y
-RUN apt-get -t testing install -y python3.6
-RUN apt install pip3
-RUN chown -R jenkins:jenkins /opt
-RUN pip3 install --user pipenv
-# RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.6
+
+RUN apk --no-cache add python3
+RUN apk --no-cache add py-pip
+RUN apk --no-cache add gcc
+RUN apk --no-cache add python3-dev
+RUN apk --no-cache add g++
+RUN apk --no-cache add libgcc
+RUN apk --no-cache add libxml2-dev
+RUN apk --no-cache add libxslt-dev
+RUN pip install --upgrade pip
+# RUN python3 -c 'import sys; f = open("/usr/lib/python3.6/site-packages/_manylinux.py", "w"); f.write("manylinux1_compatible = True"); f.close()'
+
+RUN chown -R jenkins:jenkins /var/jenkins_home
+RUN pip3 install pipenv
 
 USER jenkins
 
@@ -20,4 +27,3 @@ USER jenkins
 # RUN pipenv install python-dotenv
 # RUN pipenv install mypy_extensions
 
-# 91566c6a7eb844e482ee252c9501d744
