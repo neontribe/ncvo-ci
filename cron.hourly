@@ -1,0 +1,3 @@
+#!/bin/sh
+
+curl -I -X POST http://tobias:11aa765dfad928aedd794e53e3820e5cbf@localhost/job/NCVO%20Front%20Controller/build -H "Jenkins-Crumb:58bbf00ee27e43312ab7f2b02cbbbc5c"
